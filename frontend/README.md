@@ -4,31 +4,47 @@ React + Vite app (mobile and desktop from one codebase). Owner: Maika.
 
 ## Run it
 
-Requires Node.js 20+.
+Requires Node.js 20+. The easiest way (starts the backend and frontend together) is
+`run.sh` (Mac/Linux) or `run.bat` (Windows) from the top folder; see `First_Time.txt`.
+
+To run just the frontend:
 
 ```bash
 cd frontend
 npm install
-cp .env.example .env     # Windows PowerShell: copy .env.example .env
+cp .env.example .env.local     # optional; Windows PowerShell: copy .env.example .env.local
 npm run dev
 ```
 
 Open http://localhost:5173. Resize the window: under 768px you get the phone layout
 (bottom tab bar), above it you get the desktop layout (top nav).
 
-By default `VITE_USE_MOCK=true`, so the whole UI works with built-in sample data and no
-backend. Set it to `false` in `.env` to call the real API from `docs/API_CONTRACT.md`.
+Scanning and "Add an item" call the real backend, so start it too (`run.sh`, or see the
+top-level README). Without the backend those two screens show a "could not reach the
+server" message; everything else still works. Use **Load sample kitchen** on the empty
+state to try the recipes without scanning anything.
+
+## Settings (`frontend/.env.local`)
+
+| Variable | Default | Meaning |
+|---|---|---|
+| `VITE_API_URL` | `http://localhost:8000` | Where the backend lives |
+| `VITE_MOCK_RECIPES` | `true` | `true` = sample recipes; set `false` once Jacob's `/match` and `/recipes/{id}` work |
+
+`npm run phone` is Jonathan's HTTPS mode for testing the camera from a phone on the same Wi-Fi.
 
 ## Folder map
 
 ```
 src/
-├── api.js              # the ONLY file that talks to the backend (mock + real)
+├── api/
+│   ├── client.js       # Jonathan: every real backend call (products, match, recipes)
+│   └── recipes.js      # recipe calls used by the pages; sample recipes while VITE_MOCK_RECIPES=true
 ├── context/            # inventory + grocery list state (saved in localStorage)
-├── hooks/              # useMatches: inventory -> ranked recipes
+├── hooks/              # useMatches (inventory -> ranked recipes), useProductSearch (Jonathan)
 ├── utils/              # match helpers, emoji/category helpers
-├── data/mockData.js    # sample recipes/products used while USE_MOCK=true
-├── components/         # Layout, nav bars, RecipeCard, SearchBar...
+├── data/mockData.js    # sample recipes and the "sample kitchen"
+├── components/         # Layout, nav bars, RecipeCard, SearchBar, BarcodeScanner (Jonathan)...
 ├── pages/              # Pantry, Recipes, RecipeDetail, Missing, Scan, AddItem, Discover
 └── styles/             # theme.css (palette) + one css file per area
 ```
@@ -39,9 +55,9 @@ Search the repo for these tags (VS Code: Ctrl/Cmd+Shift+F):
 
 | Tag | Where | What to do |
 |---|---|---|
-| `>>> JONATHAN` | `src/api.js`, `src/pages/Scan.jsx` | Real Open Food Facts calls; camera + barcode decoding |
-| `>>> JACOB` | `src/api.js`, `src/pages/RecipeDetail.jsx` | Real `/match` and `/recipes/{id}`; macros slot |
-| `>>> ERIK` | `src/pages/AddItem.jsx` | Manual add search wiring |
+| `>>> JONATHAN` | `src/pages/Scan.jsx`, `src/utils/foodInfo.js` | Scan flow uses your scanner + client. Item categories come from Open Food Facts; improve `groupOf()` if needed |
+| `>>> JACOB` | `src/api/recipes.js`, `src/pages/RecipeDetail.jsx`, `src/utils/match.js` | Switch to the real `/match` and `/recipes/{id}`; macros slot on the detail page |
+| `>>> ERIK` | `src/pages/AddItem.jsx` | Manual add screen (already uses Jonathan's search hook) |
 
 ## Palette
 
