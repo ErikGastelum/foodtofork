@@ -5,6 +5,8 @@ venv/
 .venv/
 .pytest_cache/
 .env
+.env.local
+.env.*.local
 
 # Node
 node_modules/
