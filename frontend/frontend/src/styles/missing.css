@@ -1,0 +1,35 @@
+/* Missing supplies + grocery list */
+
+.missing-page {
+  display: grid;
+  gap: 16px;
+  max-width: 720px;
+}
+.missing-group h2 {
+  margin-bottom: 8px;
+  color: var(--forest);
+  font-size: 0.95rem;
+  font-weight: 800;
+}
+.missing-group ul {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.missing-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+}
+.grocery {
+  margin-top: 8px;
+}
+
+@media (min-width: 768px) {
+  .missing-page {
+    margin: 0 auto 0 0;
+  }
+}
