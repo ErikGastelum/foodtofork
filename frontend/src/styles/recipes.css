@@ -1,0 +1,137 @@
+/* Recipe cards, the grid, filters and the desktop banner. Used by Recipes and Pantry. */
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 4px 0 14px;
+}
+.filters--scroll {
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  scrollbar-width: none;
+}
+
+.empty-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.hero-banner {
+  margin-bottom: 18px;
+  padding: 26px 28px;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(120deg, #fbd566, var(--sunshine));
+  color: #3d2a00;
+}
+.hero-banner h1 {
+  font-size: 1.6rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+.hero-banner p {
+  margin-top: 4px;
+}
+
+/* ---------- Grid: 1 column on phones, more as space allows ---------- */
+.recipe-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+@media (min-width: 560px) {
+  .recipe-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (min-width: 768px) {
+  .recipe-grid {
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  }
+}
+
+/* ---------- Card ---------- */
+.recipe-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--card);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.recipe-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+}
+.recipe-card__media {
+  position: relative;
+  display: grid;
+  place-items: center;
+  height: 88px;
+  font-size: 2.4rem;
+}
+.recipe-card__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.recipe-card__badge {
+  display: none; /* phones show the percentage in the chip instead */
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: #fff;
+  color: var(--emerald);
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+.recipe-card__body {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 10px;
+  padding: 12px 14px 14px;
+}
+/* Long "Missing: ..." chips wrap instead of overflowing the card. */
+.recipe-card__chips .chip {
+  max-width: 100%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  white-space: normal;
+}
+.recipe-card__body h3 {
+  font-size: 1.05rem;
+  font-weight: 800;
+}
+.recipe-card__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+@media (min-width: 768px) {
+  .recipe-card__media {
+    height: 76px;
+  }
+  .recipe-card__badge {
+    display: block;
+  }
+}
+
+.tint-sun {
+  background: linear-gradient(135deg, #fbd566, var(--sunshine));
+}
+.tint-leaf {
+  background: linear-gradient(135deg, #a8dcae, #2fa862);
+}
+.tint-coral {
+  background: linear-gradient(135deg, #f4b39a, #d9683f);
+}
+.tint-sky {
+  background: linear-gradient(135deg, #bfe1f0, #5fa8cc);
+}
