@@ -5,7 +5,7 @@ import { NavLink } from 'react-router-dom'
 const LINKS = [
   { to: '/', label: 'My Kitchen', end: true },
   { to: '/recipes', label: 'Recipes' },
-  { to: '/discover', label: 'Discover' },
+  { to: '/missing', label: 'Missing' },
 ]
 
 export default function TopNav() {
