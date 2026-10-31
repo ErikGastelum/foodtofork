@@ -4,6 +4,8 @@ import ComingSoon from './components/ComingSoon.jsx'
 import Pantry from './pages/Pantry.jsx'
 import Recipes from './pages/Recipes.jsx'
 import Missing from './pages/Missing.jsx'
+import Scan from './pages/Scan.jsx'
+import AddItem from './pages/AddItem.jsx'
 
 // Routes. Each page lives in src/pages/. Pages not built yet show a "coming soon" placeholder.
 // To add a page: create it in src/pages/, swap its <ComingSoon> route below for the real page,
@@ -16,8 +18,8 @@ export default function App() {
         <Route path="recipes" element={<Recipes />} />
         <Route path="recipes/:id" element={<ComingSoon title="Recipe" message="This page is coming soon." />} />
         <Route path="missing" element={<Missing />} />
-        <Route path="scan" element={<ComingSoon title="Scan a barcode" message="This page is coming soon." />} />
-        <Route path="add" element={<ComingSoon title="Add an item" message="This page is coming soon." />} />
+        <Route path="scan" element={<Scan />} />
+        <Route path="add" element={<AddItem />} />
         <Route path="discover" element={<ComingSoon title="Discover" message="This page is coming soon." />} />
         <Route path="*" element={<ComingSoon />} />
       </Route>

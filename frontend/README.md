@@ -45,7 +45,7 @@ src/
 ├── utils/              # match helpers, emoji/category helpers
 ├── data/mockData.js    # sample recipes and the "sample kitchen"
 ├── components/         # Layout, nav bars, RecipeCard, SearchBar, BarcodeScanner (Jonathan)...
-├── pages/              # Pantry, Recipes, RecipeDetail, Missing, Scan, AddItem, Discover
+├── pages/              # Pantry, Recipes, Missing, Scan, AddItem (recipe detail and Discover come later; their routes show "coming soon")
 └── styles/             # theme.css (palette) + one css file per area
 ```
 
@@ -56,7 +56,7 @@ Search the repo for these tags (VS Code: Ctrl/Cmd+Shift+F):
 | Tag | Where | What to do |
 |---|---|---|
 | `>>> JONATHAN` | `src/pages/Scan.jsx`, `src/utils/foodInfo.js` | Scan flow uses your scanner + client. Item categories come from Open Food Facts; improve `groupOf()` if needed |
-| `>>> JACOB` | `src/api/recipes.js`, `src/pages/RecipeDetail.jsx`, `src/utils/match.js` | Switch to the real `/match` and `/recipes/{id}`; macros slot on the detail page |
+| `>>> JACOB` | `src/api/recipes.js`, `src/utils/match.js` | Switch to the real `/match` and `/recipes/{id}`. The recipe detail page isn't built yet (its route shows "coming soon") |
 | `>>> ERIK` | `src/pages/AddItem.jsx` | Manual add screen (already uses Jonathan's search hook) |
 
 ## Palette
