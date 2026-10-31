@@ -55,11 +55,11 @@ export default function Pantry() {
           <h2 className="pantry__heading desktop-only">
             Your inventory <span className="count-pill">{inventory.length}</span>
           </h2>
-          <div className="pantry__actions desktop-only">
-            <Link className="btn btn--primary btn--block" to="/scan">
+          <div className="pantry__actions">
+            <Link className="btn btn--primary btn--block pantry__scan" to="/scan">
               ▣ Scan barcode
             </Link>
-            <Link className="btn btn--outline btn--block" to="/add">
+            <Link className="btn btn--outline btn--block pantry__manual" to="/add">
               + Add manually
             </Link>
           </div>
@@ -101,9 +101,6 @@ export default function Pantry() {
                 </ul>
               )}
 
-              <Link className="btn btn--outline btn--block pantry__add mobile-only" to="/add">
-                + Add an item
-              </Link>
               <button type="button" className="btn btn--sun btn--block pantry__confirm mobile-only" onClick={() => navigate('/recipes')}>
                 Confirm &amp; see recipes →
               </button>

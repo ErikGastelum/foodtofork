@@ -125,3 +125,23 @@
     justify-self: start;
   }
 }
+
+/* Phone: Scan and Add manually side by side right under the header */
+@media (max-width: 767px) {
+  .pantry__actions {
+    grid-template-columns: 1fr 1fr;
+  }
+  .btn.pantry__scan {
+    min-height: 56px;
+    background: var(--sunshine);
+    color: var(--forest);
+    font-size: 1.05rem;
+    font-weight: 800;
+    box-shadow: var(--shadow);
+  }
+  .btn.pantry__manual {
+    min-height: 56px;
+    background: var(--card);
+    font-weight: 800;
+  }
+}

@@ -1,6 +1,7 @@
 import { NavLink } from 'react-router-dom'
 
-// Phone navigation: Pantry, Recipes, a big scan button, Missing. (No Settings tab.)
+// Phone navigation: Pantry, Recipes, Missing. (No Settings tab.)
+// Scan and Add manually live at the top of the Pantry page.
 const tab = ({ isActive }) => 'bottom-nav__link' + (isActive ? ' is-active' : '')
 
 export default function BottomNav() {
@@ -13,9 +14,6 @@ export default function BottomNav() {
       <NavLink to="/recipes" className={tab}>
         <span aria-hidden="true">📖</span>
         Recipes
-      </NavLink>
-      <NavLink to="/scan" className="bottom-nav__fab" aria-label="Scan barcode">
-        <span aria-hidden="true">▣</span>
       </NavLink>
       <NavLink to="/missing" className={tab}>
         <span aria-hidden="true">🛒</span>
