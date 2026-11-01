@@ -114,6 +114,11 @@ Ranks recipes by how many of their ingredients the user already has.
 { "inventory": ["Eggs", "Tomatoes", "Garlic", "Onion", "Whole Milk"] }
 ```
 
+Optional fields, all backward compatible:
+   - `limit` (integer, 1 or more): maximum number of recipes returned. Default: all.
+   - `min_match` (integer, 0-100): minimum `match` percentage. Default: 1.
+   - `sort` (`"match"` or `"name"`): highest match first, or alphabetical. Default: `"match"`.
+
 **Response 200:** recipes sorted from highest to lowest `match`.
 ```json
 [
@@ -134,9 +139,11 @@ total required ingredients.
 
 **Open questions for Jacob**
 - Do pantry staples (salt, pepper, water, oil) count toward `match`?
+They should count towards match.
 - Maximum number of results? (Suggest 20.)
+20 is a good number for the maximum number of results.
 - Should recipes with `match` of 0 be left out?
-
+Yes, they should be left out.
 ---
 
 ## `GET /recipes/{id}`
