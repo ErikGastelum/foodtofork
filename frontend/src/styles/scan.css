@@ -1,0 +1,102 @@
+/* Scan + Add item screens (single centered column, also on desktop) */
+
+.scan-page {
+  display: grid;
+  gap: 14px;
+  max-width: 520px;
+}
+@media (min-width: 768px) {
+  .scan-page {
+    margin: 0 auto;
+  }
+}
+
+/* ---------- Scanner (Jonathan's <BarcodeScanner> restyled to the theme) ---------- */
+.scanner {
+  position: relative;
+}
+.scanner .barcode-scanner {
+  max-width: none;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(160deg, #2b5a41, #0e2a1d);
+}
+.scanner .barcode-scanner__guide {
+  border-color: var(--sunshine);
+  border-radius: 18px;
+  box-shadow: 0 0 0 9999px rgba(14, 42, 29, 0.35);
+}
+.scanner__hint {
+  position: absolute;
+  right: 0;
+  bottom: 12px;
+  left: 0;
+  color: #fff;
+  font-size: 0.85rem;
+  text-align: center;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+}
+/* Shown while the camera is off (starting, looking up a product, or finished). */
+.scanner__idle {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(160deg, #2b5a41, #0e2a1d);
+  color: #fff;
+}
+
+.scan-result {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px 10px 12px;
+}
+.scan-result__added {
+  color: var(--emerald);
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+.scan-message {
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  background: var(--sun-soft);
+  color: var(--sun-ink);
+  font-weight: 600;
+}
+.scan-dev {
+  justify-self: center;
+  border-style: dashed;
+}
+
+/* ---------- Manual add ---------- */
+.search--outlined {
+  border-color: var(--emerald);
+}
+.results {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.result {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 10px 14px 10px 12px;
+  color: inherit;
+  text-align: left;
+}
+.result:hover:not([disabled]) {
+  border-color: var(--emerald);
+}
+.result[disabled] {
+  opacity: 0.75;
+  cursor: default;
+}
+.result__action {
+  color: var(--emerald);
+  font-size: 1.1rem;
+  font-weight: 800;
+}

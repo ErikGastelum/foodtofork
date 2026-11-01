@@ -1,0 +1,227 @@
+/* ==========================================================================
+   FoodToFork theme: "Meadow & Sunshine"
+   Change a color here and it changes everywhere.
+   ========================================================================== */
+:root {
+  /* Palette from the mockup */
+  --cream: #fbf5df;
+  --emerald: #1e9e5a;
+  --forest: #0f5c3a;
+  --mint: #d5f0dd;
+  --sunshine: #f5b82e;
+
+  /* Supporting tones */
+  --card: #fffdf0;
+  --line: #eee5bf;
+  --ink: #16301f;
+  --ink-soft: #5e6d5f;
+  --track: #e5dfc0;
+  --sun-soft: #fbe9b0;
+  --sun-ink: #6f4b00;
+
+  --radius-sm: 10px;
+  --radius: 14px;
+  --radius-lg: 22px;
+  --shadow: 0 1px 2px rgba(15, 92, 58, 0.08), 0 8px 22px rgba(15, 92, 58, 0.1);
+  --nav-h: 64px;
+  --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--cream);
+  color: var(--ink);
+  font-family: var(--font);
+  line-height: 1.4;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+p,
+ul,
+ol {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+}
+
+:focus-visible {
+  outline: 3px solid var(--sunshine);
+  outline-offset: 2px;
+}
+
+/* Show/hide helpers: phone is the default, desktop starts at 768px */
+@media (max-width: 767.98px) {
+  .desktop-only {
+    display: none !important;
+  }
+}
+@media (min-width: 768px) {
+  .mobile-only {
+    display: none !important;
+  }
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 46px;
+  padding: 0 18px;
+  border: 2px solid transparent;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  transition: background 0.15s, transform 0.1s;
+}
+.btn:active {
+  transform: translateY(1px);
+}
+.btn--primary {
+  background: var(--emerald);
+  color: #fff;
+}
+.btn--primary:hover {
+  background: #188a4e;
+}
+.btn--sun {
+  background: var(--sunshine);
+  color: var(--ink);
+}
+.btn--sun:hover {
+  background: #e8aa1c;
+}
+.btn--outline {
+  background: transparent;
+  border-color: var(--emerald);
+  color: var(--emerald);
+}
+.btn--outline:hover {
+  background: var(--mint);
+}
+.btn--block {
+  width: 100%;
+}
+.btn--small {
+  min-height: 36px;
+  padding: 0 12px;
+  font-size: 0.85rem;
+}
+.btn[disabled] {
+  opacity: 0.6;
+  cursor: default;
+}
+
+/* ---------- Chips ---------- */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--mint);
+  color: var(--forest);
+  font-weight: 700;
+  font-size: 0.82rem;
+  white-space: nowrap;
+}
+button.chip:hover {
+  filter: brightness(0.96);
+}
+.chip--active {
+  background: var(--emerald);
+  color: #fff;
+}
+.chip--warn {
+  background: var(--sun-soft);
+  color: var(--sun-ink);
+}
+.chip--static {
+  min-height: 28px;
+  padding: 0 12px;
+  font-size: 0.78rem;
+}
+
+/* ---------- Cards, progress, search ---------- */
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.progress {
+  height: 8px;
+  border-radius: 99px;
+  background: var(--track);
+  overflow: hidden;
+}
+.progress > span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--emerald);
+}
+
+.search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 0 14px;
+  border: 2px solid transparent;
+  border-radius: 14px;
+  background: var(--card);
+  color: var(--ink);
+}
+.search:focus-within {
+  border-color: var(--sunshine);
+}
+.search input {
+  flex: 1;
+  min-width: 0;
+  min-height: 44px;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  outline: none;
+}
+
+.state-msg {
+  padding: 28px 16px;
+  text-align: center;
+  color: var(--ink-soft);
+}
+.state-msg strong {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--ink);
+}
