@@ -1,0 +1,5 @@
+Hi Guys, this is a personal note that I did not want to include in the read me, the run.bat "Should" do everything runs it all and runs one cmd for backend and one for frontend, 
+
+
+for you mac guys run.sh should cover it let me know if anything else is needed!
+
