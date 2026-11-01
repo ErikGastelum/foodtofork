@@ -57,4 +57,5 @@ async def health():
 
 app.include_router(products.router)
 # Recipe routes (/match, /recipes/{id}) go here, e.g.:
-# app.include_router(recipes.router)
+import recipes
+app.include_router(recipes.router)
