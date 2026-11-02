@@ -19,17 +19,17 @@ npm run dev
 Open http://localhost:5173. Resize the window: under 768px you get the phone layout
 (bottom tab bar), above it you get the desktop layout (top nav).
 
-Scanning and "Add an item" call the real backend, so start it too (`run.sh`, or see the
-top-level README). Without the backend those two screens show a "could not reach the
-server" message; everything else still works. Use **Load sample kitchen** on the empty
-state to try the recipes without scanning anything.
+Everything except the empty "Load sample kitchen" button talks to the real backend (barcode
+scan, Add an item search, recipe matching, recipe details), so start it too (`run.sh`, or
+see the top-level README). Without the backend those screens show a "could not reach the
+server" message. **Load sample kitchen** on the empty state fills the pantry with 12 demo
+items so you can try the recipes without scanning anything.
 
 ## Settings (`frontend/.env.local`)
 
 | Variable | Default | Meaning |
 |---|---|---|
 | `VITE_API_URL` | `http://localhost:8000` | Where the backend lives |
-| `VITE_MOCK_RECIPES` | `true` | `true` = sample recipes; set `false` once Jacob's `/match` and `/recipes/{id}` work |
 
 `npm run phone` is Jonathan's HTTPS mode for testing the camera from a phone on the same Wi-Fi.
 
@@ -39,13 +39,13 @@ state to try the recipes without scanning anything.
 src/
 ├── api/
 │   ├── client.js       # Jonathan: every real backend call (products, match, recipes)
-│   └── recipes.js      # recipe calls used by the pages; sample recipes while VITE_MOCK_RECIPES=true
+│   └── recipes.js      # recipe calls used by the pages (Jacob's /match and /recipes/{id})
 ├── context/            # inventory + grocery list state (saved in localStorage)
 ├── hooks/              # useMatches (inventory -> ranked recipes), useProductSearch (Jonathan)
 ├── utils/              # match helpers, emoji/category helpers
-├── data/mockData.js    # sample recipes and the "sample kitchen"
+├── data/mockData.js    # the "sample kitchen" (12 demo items) and Discover placeholders
 ├── components/         # Layout, nav bars, RecipeCard, SearchBar, BarcodeScanner (Jonathan)...
-├── pages/              # Pantry, Recipes, Missing, Scan, AddItem (recipe detail and Discover come later; their routes show "coming soon")
+├── pages/              # Pantry, Recipes, RecipeDetail, Missing, Scan, AddItem (Discover comes later; its route shows "coming soon")
 └── styles/             # theme.css (palette) + one css file per area
 ```
 

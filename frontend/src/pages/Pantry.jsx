@@ -6,6 +6,7 @@ import RecipeGrid from '../components/RecipeGrid.jsx'
 import EmptyKitchen from '../components/EmptyKitchen.jsx'
 import { itemKey, useKitchen } from '../context/KitchenContext.jsx'
 import { useMatches } from '../hooks/useMatches.js'
+import { MATCH_LIMIT } from '../api/recipes.js'
 import { emojiFor, groupOf } from '../utils/foodInfo.js'
 import '../styles/pantry.css'
 
@@ -44,7 +45,7 @@ export default function Pantry() {
     <>
       <PageHeader
         title="What's in your kitchen?"
-        subtitle={`${inventory.length} items · ${recipes.length} matching recipes`}
+        subtitle={`${inventory.length} items · ${recipes.length}${recipes.length >= MATCH_LIMIT ? '+' : ''} matching recipes`}
         desktop="hide"
       >
         <SearchBar value={query} onChange={setQuery} placeholder="Search your inventory…" />
@@ -121,7 +122,7 @@ export default function Pantry() {
           </div>
           {recipes.length > shownRecipes.length && (
             <Link className="btn btn--outline" to="/recipes">
-              See all {recipes.length} recipes
+              See all recipes
             </Link>
           )}
         </section>

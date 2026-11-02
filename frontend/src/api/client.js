@@ -87,9 +87,12 @@ export const api = {
     }
   },
 
-  /** POST /match — inventory is a list of item names. Backend: Jacob. */
-  matchRecipes: (inventory, { signal } = {}) =>
-    request('/match', { method: 'POST', body: { inventory }, signal }),
+  /**
+   * POST /match — inventory is a list of item names. Backend: Jacob.
+   * limit (optional, 1 or more): max recipes returned; leave it out to get every match.
+   */
+  matchRecipes: (inventory, { limit, signal } = {}) =>
+    request('/match', { method: 'POST', body: limit ? { inventory, limit } : { inventory }, signal }),
 
   /** GET /recipes/{id} — full recipe for the detail view. Backend: Jacob. */
   getRecipe: (id, { signal } = {}) => request(`/recipes/${encodeURIComponent(id)}`, { signal }),
