@@ -72,10 +72,13 @@
   position: relative;
   display: grid;
   place-items: center;
-  height: 88px;
+  height: 140px;
+  overflow: hidden; /* real photos are big squares; crop them to the box */
   font-size: 2.4rem;
 }
 .recipe-card__media img {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -116,7 +119,7 @@
 }
 @media (min-width: 768px) {
   .recipe-card__media {
-    height: 76px;
+    height: 120px;
   }
   .recipe-card__badge {
     display: block;

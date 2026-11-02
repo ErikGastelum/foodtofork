@@ -12,9 +12,12 @@ import '../styles/missing.css'
 // staples (salt, oil...) from this screen, filter them in the backend response.
 export default function Missing() {
   const { inventory, inventoryNames, groceryList, addToGrocery, removeFromGrocery } = useKitchen()
-  const { recipes, loading, error } = useMatches(inventoryNames)
+  const { recipes, loading, error } = useMatches(inventoryNames, null) // null = every match, so we can find the closest ones
 
-  const near = recipes.filter((r) => r.missing.length >= 1 && r.missing.length <= 2)
+  const near = recipes
+    .filter((r) => r.missing.length >= 1 && r.missing.length <= 2)
+    .sort((a, b) => a.missing.length - b.missing.length || b.match - a.match)
+    .slice(0, 10) // the 10 closest
   const allNames = [...new Set(near.flatMap((r) => r.missing))]
   const onList = (name) => groceryList.some((g) => g.toLowerCase() === name.toLowerCase())
   const everythingListed = allNames.every(onList)
