@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import PageHeader from '../components/PageHeader.jsx'
+import CustomItemForm from '../components/CustomItemForm.jsx'
 import { itemKey, useKitchen } from '../context/KitchenContext.jsx'
 import { useProductSearch } from '../hooks/useProductSearch.js'
 import { emojiFor } from '../utils/foodInfo.js'
@@ -66,6 +67,8 @@ export default function AddItem() {
             ))}
           </ul>
         )}
+
+        {typedEnough && !loading && <CustomItemForm key={query.trim().toLowerCase()} name={query} />}
 
         <Link className="btn btn--outline btn--block" to="/scan">
           Use camera instead

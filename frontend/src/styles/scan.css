@@ -100,3 +100,18 @@
   font-size: 1.1rem;
   font-weight: 800;
 }
+
+/* ---------- Custom item ("Can't find it?") ---------- */
+.custom-item {
+  display: grid;
+  gap: 12px;
+  padding: 14px;
+}
+.custom-item__title {
+  margin: 0;
+}
+.custom-item__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
