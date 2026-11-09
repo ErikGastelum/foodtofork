@@ -7,6 +7,7 @@ const KitchenContext = createContext(null)
 
 const INVENTORY_KEY = 'foodtofork.inventory'
 const GROCERY_KEY = 'foodtofork.grocery'
+const PLAN_KEY = 'foodtofork.mealPlan'
 
 function load(key) {
   try {
@@ -34,6 +35,18 @@ export function KitchenProvider({ children }) {
   useEffect(() => save(INVENTORY_KEY, inventory), [inventory])
   useEffect(() => save(GROCERY_KEY, groceryList), [groceryList])
 
+    // Weekly meal plan: one recipe per day + slot (see utils/mealPlan.js for the shape).
+  const [mealPlan, setMealPlan] = useState(() => load(PLAN_KEY))
+  useEffect(() => save(PLAN_KEY, mealPlan), [mealPlan])
+
+  /** Puts a meal in its day + slot, replacing whatever was there. */
+  const addMeal = useCallback((meal) => {
+    setMealPlan((prev) => [...prev.filter((m) => !(m.day === meal.day && m.slot === meal.slot)), meal])
+  }, [])
+
+  const removeMeal = useCallback((day, slot) => {
+    setMealPlan((prev) => prev.filter((m) => !(m.day === day && m.slot === slot)))
+  }, [])
   /** product: { barcode, name, brand, image, category } as returned by the API. */
   const addItem = useCallback((product) => {
     setInventory((prev) => (prev.some((i) => itemKey(i) === itemKey(product)) ? prev : [...prev, product]))
@@ -68,8 +81,11 @@ export function KitchenProvider({ children }) {
       loadSample,
       addToGrocery,
       removeFromGrocery,
+      mealPlan,
+      addMeal,
+      removeMeal,
     }),
-    [inventory, groceryList, addItem, removeItem, loadSample, addToGrocery, removeFromGrocery],
+    [inventory, groceryList, addItem, removeItem, loadSample, addToGrocery, removeFromGrocery, mealPlan, addMeal, removeMeal],
   )
 
   return <KitchenContext.Provider value={value}>{children}</KitchenContext.Provider>

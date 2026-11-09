@@ -15,6 +15,10 @@ export default function BottomNav() {
         <span aria-hidden="true">📖</span>
         Recipes
       </NavLink>
+      <NavLink to="/plan" className={tab}>
+        <span aria-hidden="true">📅</span>
+        Plan
+      </NavLink>
       <NavLink to="/missing" className={tab}>
         <span aria-hidden="true">🛒</span>
         Missing

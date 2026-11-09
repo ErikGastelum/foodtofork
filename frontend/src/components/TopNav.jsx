@@ -6,6 +6,7 @@ const LINKS = [
   { to: '/', label: 'My Kitchen', end: true },
   { to: '/recipes', label: 'Recipes' },
   { to: '/missing', label: 'Missing' },
+  { to: '/plan', label: 'Meal plan' },
 ]
 
 export default function TopNav() {

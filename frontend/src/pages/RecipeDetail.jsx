@@ -4,6 +4,7 @@ import { getRecipe } from '../api/recipes.js'
 import { useKitchen } from '../context/KitchenContext.jsx'
 import { isOwned } from '../utils/match.js'
 import { tintFor } from '../utils/foodInfo.js'
+import AddToPlan from '../components/AddToPlan.jsx'
 import '../styles/detail.css'
 
 // Recipe detail: image, ingredients (owned vs still-to-buy) and step-by-step instructions.
@@ -97,6 +98,7 @@ export default function RecipeDetail() {
               {allListed ? 'Missing items are on your grocery list ✓' : `Add ${missing.length} missing to grocery list`}
             </button>
           )}
+          <AddToPlan recipe={recipe} />
           <button type="button" className="btn btn--sun btn--block" onClick={() => stepsRef.current?.scrollIntoView({ behavior: 'smooth' })}>
             Start cooking
           </button>

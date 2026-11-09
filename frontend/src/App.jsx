@@ -7,6 +7,7 @@ import RecipeDetail from './pages/RecipeDetail.jsx'
 import Missing from './pages/Missing.jsx'
 import Scan from './pages/Scan.jsx'
 import AddItem from './pages/AddItem.jsx'
+import MealPlan from './pages/MealPlan.jsx'
 
 // Routes. Each page lives in src/pages/. Pages not built yet show a "coming soon" placeholder.
 // To add a page: create it in src/pages/, swap its <ComingSoon> route below for the real page,
@@ -22,6 +23,7 @@ export default function App() {
         <Route path="scan" element={<Scan />} />
         <Route path="add" element={<AddItem />} />
         <Route path="discover" element={<ComingSoon title="Discover" message="This page is coming soon." />} />
+        <Route path="plan" element={<MealPlan />} />
         <Route path="*" element={<ComingSoon />} />
       </Route>
     </Routes>
