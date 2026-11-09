@@ -47,7 +47,7 @@ export default function AddToPlan({ recipe }) {
       <div className="add-to-plan__chips" role="group" aria-label="Meal">
         {SLOTS.map((s) => (
           <button key={s} type="button" className={'chip' + (slot === s ? ' chip--active' : '')} aria-pressed={slot === s} onClick={() => setSlot(s)}>
-            {s === 'lunch' ? 'Lunch' : 'Dinner'}
+            {s.charAt(0).toUpperCase() + s.slice(1)}
           </button>
         ))}
       </div>

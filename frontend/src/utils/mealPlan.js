@@ -1,7 +1,7 @@
 import { isOwned } from './match.js'
 
 export const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-export const SLOTS = ['lunch', 'dinner']
+export const SLOTS = ['breakfast', 'lunch', 'dinner', 'snack']
 
 /** Today's short day name, e.g. 'Mon'. JS weeks start on Sunday (0), ours on Monday. */
 export function today() {

@@ -4,7 +4,7 @@ import { useKitchen } from '../context/KitchenContext.jsx'
 import { DAYS, SLOTS, mealAt, mealStatus, today } from '../utils/mealPlan.js'
 import '../styles/plan.css'
 
-// Weekly meal plan: Mon–Sun, lunch and dinner. Meals are added from a recipe's detail page
+// Weekly meal plan: Mon–Sun, Meals are added from a recipe's detail page
 // ("Add to meal plan") and saved in localStorage via KitchenContext.
 export default function MealPlan() {
   const { mealPlan, inventoryNames, removeMeal } = useKitchen()
@@ -13,7 +13,7 @@ export default function MealPlan() {
   const ready = mealPlan.filter((m) => mealStatus(m, inventoryNames).missing.length === 0).length
   const subtitle = mealPlan.length
     ? `${mealPlan.length} meal${mealPlan.length === 1 ? '' : 's'} planned · ${ready} ready to cook`
-    : 'Plan your lunches and dinners for the week'
+    : 'Plan your meals for the week'
 
   return (
     <>
