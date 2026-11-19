@@ -1,8 +1,10 @@
 import { useMemo, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import PageHeader from '../components/PageHeader.jsx'
 import SearchBar from '../components/SearchBar.jsx'
 import RecipeGrid from '../components/RecipeGrid.jsx'
 import EmptyKitchen from '../components/EmptyKitchen.jsx'
+import MyRecipes from '../components/MyRecipes.jsx'
 import { useKitchen } from '../context/KitchenContext.jsx'
 import { useMatches } from '../hooks/useMatches.js'
 import '../styles/recipes.css'
@@ -13,12 +15,23 @@ import '../styles/recipes.css'
 // >>> JACOB: results come from POST /match (see src/api/recipes.js). The category chips are built
 // from whatever categories the API returns. Calories / macro sorting is a stretch goal and
 // needs nutrition data TheMealDB doesn't give us, so it isn't here yet.
+//
+// Tabs: Best match | Fewest missing | My recipes (Jonathan: saved recipes + sharing, components/MyRecipes.jsx).
+// The tab is in the URL (/recipes?tab=mine) so other pages can link straight to it.
+const TABS = [
+  { id: 'best', label: 'Best match' },
+  { id: 'fewest', label: 'Fewest missing' },
+  { id: 'mine', label: 'My recipes' },
+]
+
 export default function Recipes() {
-  const { inventory, inventoryNames } = useKitchen()
+  const { inventory, inventoryNames, savedRecipes } = useKitchen()
   const { recipes, loading, error } = useMatches(inventoryNames)
   const [query, setQuery] = useState('')
   const [category, setCategory] = useState('All')
-  const [sort, setSort] = useState('best')
+  const [params, setParams] = useSearchParams()
+  const sort = TABS.some((t) => t.id === params.get('tab')) ? params.get('tab') : 'best'
+  const setSort = (tab) => setParams(tab === 'best' ? {} : { tab }, { replace: true })
 
   const categories = useMemo(() => ['All', ...new Set(recipes.map((r) => r.category).filter(Boolean))], [recipes])
 
@@ -45,18 +58,28 @@ export default function Recipes() {
           <p>Featured recipes picked from your kitchen.</p>
         </div>
 
-        {inventory.length === 0 ? (
+        <div className="filters" role="tablist" aria-label="Recipe lists">
+          {TABS.map((t) => (
+            <button
+              key={t.id}
+              type="button"
+              role="tab"
+              aria-selected={sort === t.id}
+              className={'chip' + (sort === t.id ? ' chip--active' : '')}
+              onClick={() => setSort(t.id)}
+            >
+              {t.label}
+              {t.id === 'mine' && savedRecipes.length > 0 && ` (${savedRecipes.length})`}
+            </button>
+          ))}
+        </div>
+
+        {sort === 'mine' ? (
+          <MyRecipes query={query} />
+        ) : inventory.length === 0 ? (
           <EmptyKitchen />
         ) : (
           <>
-            <div className="filters" role="group" aria-label="Sort recipes">
-              <button type="button" className={'chip' + (sort === 'best' ? ' chip--active' : '')} onClick={() => setSort('best')}>
-                Best match
-              </button>
-              <button type="button" className={'chip' + (sort === 'fewest' ? ' chip--active' : '')} onClick={() => setSort('fewest')}>
-                Fewest missing
-              </button>
-            </div>
             {categories.length > 2 && (
               <div className="filters filters--scroll" role="group" aria-label="Filter by category">
                 {categories.map((c) => (

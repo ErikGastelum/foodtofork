@@ -1,11 +1,12 @@
 import { NavLink } from 'react-router-dom'
 
-// Desktop navigation. No Community or Sign in: accounts are a stretch goal.
+// Desktop navigation. "Account" (Jonathan) shows sign in / sign up for guests.
 // >>> To add a page later, add one entry here (and one in BottomNav if it belongs on mobile).
 const LINKS = [
   { to: '/', label: 'My Kitchen', end: true },
   { to: '/recipes', label: 'Recipes' },
   { to: '/missing', label: 'Missing' },
+  { to: '/account', label: 'Account' },
 ]
 
 export default function TopNav() {

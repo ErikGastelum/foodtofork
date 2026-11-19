@@ -13,7 +13,7 @@ import '../styles/detail.css'
 // backend (e.g. return them as a list), change `steps` below.
 export default function RecipeDetail() {
   const { id } = useParams()
-  const { inventoryNames, groceryList, addToGrocery } = useKitchen()
+  const { inventoryNames, groceryList, addToGrocery, isSaved, toggleSaved } = useKitchen()
   const [recipe, setRecipe] = useState(null)
   const [status, setStatus] = useState('loading') // loading | ready | notfound | error
   const stepsRef = useRef(null)
@@ -72,6 +72,15 @@ export default function RecipeDetail() {
         <div className="detail__body">
           <h1>{recipe.name}</h1>
           <p className="detail__meta">{[`${match}% match`, recipe.category, recipe.area].filter(Boolean).join(' · ')}</p>
+          {/* Saved recipes (Jonathan): kept per account, and shown on the family share link. */}
+          <button type="button" className="btn btn--small btn--outline save-recipe" aria-pressed={isSaved(recipe.id)} onClick={() => toggleSaved(recipe)}>
+            {isSaved(recipe.id) ? '★ Saved' : '☆ Save recipe'}
+          </button>
+          {isSaved(recipe.id) && (
+            <Link className="detail__share-link" to="/recipes?tab=mine">
+              Share it from My recipes →
+            </Link>
+          )}
 
           {/* >>> JACOB (stretch): macros (carbs / fats / sugar bars from the mockup) go here.
               TheMealDB has no nutrition data, so this needs another source. */}

@@ -8,12 +8,23 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
+from dotenv import load_dotenv
+
+load_dotenv()  # reads backend/.env (DATABASE_URL, ADMIN_USERNAME, ADMIN_PASSWORD...) if present
+
+import accounts
+import db
 import products
+import shares
 from openfoodfacts import OpenFoodFacts
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    # Accounts database: SQLite file locally, Postgres when DATABASE_URL is set.
+    db.configure()
+    with db.SessionLocal() as session:
+        accounts.ensure_admin(session)
     # One shared HTTP client (and cache) for the whole server.
     async with OpenFoodFacts.make_http_client() as http:
         app.state.off = OpenFoodFacts(http)
@@ -34,8 +45,8 @@ allowed_origins |= {
 app.add_middleware(
     CORSMiddleware,
     allow_origins=sorted(allowed_origins),
-    allow_methods=["GET", "POST"],
-    allow_headers=["Content-Type"],
+    allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE"],
+    allow_headers=["Content-Type", "Authorization"],
 )
 
 
@@ -45,7 +56,8 @@ async def validation_error(request: Request, exc: RequestValidationError):
     messages = []
     for err in exc.errors():
         field = ".".join(str(p) for p in err.get("loc", ()) if p not in ("query", "path", "body"))
-        messages.append(f"{field}: {err.get('msg')}" if field else err.get("msg", "Invalid request"))
+        msg = str(err.get("msg", "Invalid request")).removeprefix("Value error, ")
+        messages.append(f"{field}: {msg}" if field else msg)
     return JSONResponse(status_code=422, content={"detail": "; ".join(messages)})
 
 
@@ -59,3 +71,5 @@ app.include_router(products.router)
 # Recipe routes (/match, /recipes/{id}) go here, e.g.:
 import recipes
 app.include_router(recipes.router)
+app.include_router(accounts.router)
+app.include_router(shares.router)

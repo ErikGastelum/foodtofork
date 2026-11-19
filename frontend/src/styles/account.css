@@ -1,0 +1,223 @@
+/* Account pages: bare-bones layout only (Jonathan).
+   >>> MAIKA: replace freely. Uses the theme tokens from theme.css. */
+
+.account-page {
+  display: grid;
+  gap: 16px;
+  max-width: 520px;
+  margin: 0 auto;
+  padding-bottom: calc(var(--nav-h) + 24px);
+}
+.account-page--wide {
+  max-width: 760px;
+}
+
+.account-card {
+  display: grid;
+  gap: 12px;
+  padding: 18px;
+}
+.account-card h2 {
+  font-size: 1.05rem;
+  color: var(--forest);
+}
+.account-card--danger {
+  border: 2px solid #c8442f;
+}
+
+.field {
+  display: grid;
+  gap: 6px;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+.field input,
+.share-url,
+.account-row input {
+  width: 100%;
+  min-height: 44px;
+  padding: 0 12px;
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: #fff;
+  font: inherit;
+  font-weight: 400;
+}
+.account-row input {
+  flex: 1 1 200px;
+  width: auto;
+}
+
+.account-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.account-note {
+  color: var(--ink-soft);
+  font-size: 0.88rem;
+}
+.account-error {
+  color: #a3311f;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.account-list {
+  display: grid;
+  gap: 8px;
+  padding: 0;
+  list-style: none;
+}
+.account-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.btn--danger {
+  background: #c8442f;
+  color: #fff;
+}
+.btn--danger:hover {
+  background: #a3311f;
+}
+.account-danger-link {
+  justify-self: center;
+  border: 0;
+  background: none;
+  color: #a3311f;
+  font: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.admin-list {
+  display: grid;
+  gap: 12px;
+  padding: 0;
+  list-style: none;
+}
+.admin-row {
+  display: grid;
+  gap: 10px;
+  padding: 14px 16px;
+}
+.admin-row__info {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.admin-row__info .account-note {
+  flex-basis: 100%;
+}
+
+.save-recipe {
+  margin-top: 8px;
+}
+
+.account-row--fields {
+  align-items: stretch;
+}
+.account-row--fields .field {
+  flex: 1 1 160px;
+}
+.field textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: #fff;
+  font: inherit;
+  font-weight: 400;
+  resize: vertical;
+}
+
+.admin-row__user {
+  color: var(--ink-soft);
+  font-size: 0.88rem;
+}
+
+/* Saved recipes + their shares */
+.saved-list {
+  display: grid;
+  gap: 12px;
+  padding: 0;
+  list-style: none;
+}
+.saved-recipe {
+  display: grid;
+  gap: 12px;
+  padding: 14px;
+}
+.saved-recipe__head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.saved-recipe__thumb {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-sm);
+  object-fit: cover;
+}
+.saved-recipe__name {
+  display: grid;
+  flex: 1;
+  gap: 2px;
+}
+.share-form,
+.share-details {
+  display: grid;
+  gap: 10px;
+}
+.share-details {
+  padding-top: 10px;
+  border-top: 1px solid var(--line);
+}
+.share-details h3 {
+  font-size: 0.95rem;
+}
+.share-details__title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.share-details__notes {
+  white-space: pre-wrap;
+}
+.claim {
+  color: var(--forest);
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-align: right;
+}
+.claim-list li {
+  min-height: 46px;
+}
+.link-button {
+  border: 0;
+  background: none;
+  padding: 0;
+  color: var(--ink-soft);
+  font: inherit;
+  font-weight: 400;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.my-recipes {
+  display: grid;
+  gap: 12px;
+  max-width: 760px;
+  padding-bottom: calc(var(--nav-h) + 24px);
+}
+.detail__share-link {
+  display: inline-block;
+  margin: 8px 0 0 12px;
+  font-size: 0.9rem;
+}
