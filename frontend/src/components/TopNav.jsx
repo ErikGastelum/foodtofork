@@ -1,6 +1,7 @@
 import { NavLink } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext.jsx'
 import { initialsOf } from '../utils/initials.js'
+import '../styles/account.css'
 import '../styles/accountUi.css'
 
 // Desktop navigation. Account lives at the top right (like the mockup):

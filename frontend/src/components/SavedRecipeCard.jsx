@@ -6,10 +6,13 @@
 //   <SavedRecipeCard recipe={{ id, name, thumbnail }} share={Share | undefined} canShare={signed in?}
 //                    onShareChange={(share | null) => ...} onRemove={() => ...} />
 //
-// >>> MAIKA: skeleton only, restyle freely.
+// Layout/styling: Maika (thumbnail, status line, Share + Remove buttons).
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { api } from '../api/client.js'
+import Banner from './Banner.jsx'
+import '../styles/account.css'
+import '../styles/accountUi.css'
 
 export default function SavedRecipeCard({ recipe, share, canShare = true, notSaved = false, onShareChange, onRemove }) {
   const [editing, setEditing] = useState(false)
@@ -39,19 +42,38 @@ export default function SavedRecipeCard({ recipe, share, canShare = true, notSav
       onRemove()
     })
 
+  const needed = share ? share.items.filter((i) => !i.have) : []
+  const covered = needed.filter((i) => i.claimed_by).length
+  const status = share ? `Shared · ${covered} of ${needed.length} covered` : 'Not shared yet'
+
   return (
     <li className="card saved-recipe">
       <div className="saved-recipe__head">
-        {recipe.thumbnail && <img className="saved-recipe__thumb" src={recipe.thumbnail} alt="" />}
+        {recipe.thumbnail ? (
+          <img className="saved-recipe__thumb" src={recipe.thumbnail} alt="" />
+        ) : (
+          <span className="saved-recipe__thumb saved-recipe__thumb--empty" aria-hidden="true">
+            🍽️
+          </span>
+        )}
         <div className="saved-recipe__name">
           <Link to={`/recipes/${recipe.id}`}>{recipe.name}</Link>
-          {notSaved && <span className="account-note">Not in your saved recipes anymore</span>}
+          <span className="account-note">{notSaved ? 'Not in your saved recipes anymore' : status}</span>
+          {confirm !== 'remove' && !editing && (
+            <div className="saved-recipe__actions">
+              {canShare && !share && !notSaved && (
+                <button type="button" className="btn btn--small btn--primary" onClick={() => setEditing(true)}>
+                  Share
+                </button>
+              )}
+              {!notSaved && (
+                <button type="button" className="btn btn--small btn--outline" onClick={() => (share ? setConfirm('remove') : remove())}>
+                  Remove
+                </button>
+              )}
+            </div>
+          )}
         </div>
-        {!notSaved && confirm !== 'remove' && (
-          <button type="button" className="btn btn--small btn--outline" onClick={() => (share ? setConfirm('remove') : remove())}>
-            Remove
-          </button>
-        )}
       </div>
 
       {confirm === 'remove' && (
@@ -64,12 +86,6 @@ export default function SavedRecipeCard({ recipe, share, canShare = true, notSav
             Cancel
           </button>
         </div>
-      )}
-
-      {canShare && !share && !editing && !notSaved && (
-        <button type="button" className="btn btn--primary btn--block" onClick={() => setEditing(true)}>
-          Share recipe &amp; grocery list
-        </button>
       )}
 
       {editing && (
@@ -118,7 +134,7 @@ export default function SavedRecipeCard({ recipe, share, canShare = true, notSav
         </div>
       )}
 
-      {error && <p className="account-error">{error}</p>}
+      <Banner kind="error">{error}</Banner>
     </li>
   )
 }

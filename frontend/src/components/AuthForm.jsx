@@ -2,6 +2,10 @@
 import { useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext.jsx'
+import Banner from './Banner.jsx'
+import PasswordField from './PasswordField.jsx'
+import '../styles/account.css'
+import '../styles/accountUi.css'
 
 export default function AuthForm({ mode }) {
   const isSignup = mode === 'signup'
@@ -34,6 +38,7 @@ export default function AuthForm({ mode }) {
 
   return (
     <form className="card account-card" onSubmit={handleSubmit}>
+      <Banner kind="error">{error}</Banner>
       {isSignup && (
         <div className="account-row account-row--fields">
           <label className="field">
@@ -50,29 +55,14 @@ export default function AuthForm({ mode }) {
         <span>Username</span>
         <input value={username} onChange={(e) => setUsername(e.target.value)} autoComplete="username" autoCapitalize="none" required minLength={3} maxLength={30} />
       </label>
-      <label className="field">
-        <span>Password{isSignup && ' (8+ characters)'}</span>
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          autoComplete={isSignup ? 'new-password' : 'current-password'}
-          required
-          minLength={isSignup ? 8 : 1}
-        />
-      </label>
-      {isSignup && (
-        <label className="field">
-          <span>Confirm password</span>
-          <input type="password" value={confirm} onChange={(e) => setConfirm(e.target.value)} autoComplete="new-password" required />
-        </label>
-      )}
-
-      {error && (
-        <p className="account-error" role="alert">
-          {error}
-        </p>
-      )}
+      <PasswordField
+        label={`Password${isSignup ? ' (8+ characters)' : ''}`}
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        autoComplete={isSignup ? 'new-password' : 'current-password'}
+        minLength={isSignup ? 8 : 1}
+      />
+      {isSignup && <PasswordField label="Confirm password" value={confirm} onChange={(e) => setConfirm(e.target.value)} autoComplete="new-password" />}
 
       <button type="submit" className="btn btn--primary btn--block" disabled={busy}>
         {busy ? 'One moment…' : isSignup ? 'Create account' : 'Sign in'}

@@ -283,3 +283,162 @@
     padding-bottom: 24px;
   }
 }
+
+/* ---------- Banners (form results) ---------- */
+.banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 9px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+.banner--error {
+  background: #fcebeb;
+  color: #791f1f;
+}
+.banner--ok {
+  background: var(--mint);
+  color: var(--forest);
+}
+
+/* ---------- Password field with Show / Hide ---------- */
+.field .password-field {
+  position: relative;
+}
+.field .password-field input {
+  padding-right: 64px;
+}
+.password-field__toggle {
+  position: absolute;
+  top: 50%;
+  right: 6px;
+  transform: translateY(-50%);
+  padding: 6px 10px;
+  border: 0;
+  border-radius: 8px;
+  background: none;
+  color: var(--emerald);
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+.password-field__toggle:hover {
+  background: var(--mint);
+}
+
+/* ---------- My recipes: saved recipe card ---------- */
+.saved-recipe__thumb {
+  flex: none;
+  width: 64px;
+  height: 64px;
+  border-radius: 12px;
+  object-fit: cover;
+}
+.saved-recipe__thumb--empty {
+  display: grid;
+  place-items: center;
+  background: var(--sun-soft);
+  font-size: 1.6rem;
+}
+.saved-recipe__name > a {
+  color: var(--ink);
+  font-weight: 700;
+}
+.saved-recipe__actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+/* ---------- Empty state ---------- */
+.empty-state {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  max-width: 420px;
+  margin: 12px auto;
+  padding: 28px 20px;
+  text-align: center;
+}
+.empty-state h2 {
+  color: var(--ink);
+  font-size: 1.1rem;
+}
+.empty-state__icon {
+  display: grid;
+  place-items: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--mint);
+  font-size: 1.7rem;
+}
+
+/* ---------- Share page ---------- */
+.share-section {
+  display: grid;
+  gap: 8px;
+}
+.share-section__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.share-section__head h2 {
+  color: var(--ink);
+  font-size: 1rem;
+}
+.count-pill {
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+.count-pill--sun {
+  background: var(--sun-soft);
+  color: var(--sun-ink);
+}
+.count-pill--mint {
+  background: var(--mint);
+  color: var(--forest);
+}
+.share-rows {
+  padding: 0;
+  list-style: none;
+  overflow: hidden;
+}
+.share-rows li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 14px;
+}
+.share-rows li + li {
+  border-top: 1px solid var(--line);
+}
+.pill-btn {
+  flex: none;
+  padding: 6px 14px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--emerald);
+  color: #fff;
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+.pill-btn:hover {
+  background: var(--forest);
+}
+.pill-done {
+  flex: none;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: var(--mint);
+  color: var(--forest);
+  font-size: 0.82rem;
+  font-weight: 700;
+}

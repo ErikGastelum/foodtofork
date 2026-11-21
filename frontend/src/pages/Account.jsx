@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import PageHeader from '../components/PageHeader.jsx'
+import Banner from '../components/Banner.jsx'
+import PasswordField from '../components/PasswordField.jsx'
 import { api } from '../api/client.js'
 import { useAuth } from '../context/AuthContext.jsx'
 import { useKitchen } from '../context/KitchenContext.jsx'
@@ -196,11 +198,7 @@ function Profile() {
       <button type="submit" className="btn btn--outline btn--block">
         Save name
       </button>
-      {msg && (
-        <p className={msg.ok ? 'account-note' : 'account-error'} role="status">
-          {msg.text}
-        </p>
-      )}
+      {msg && <Banner kind={msg.ok ? 'ok' : 'error'}>{msg.text}</Banner>}
     </form>
   )
 }
@@ -224,22 +222,12 @@ function ChangePassword() {
 
   return (
     <form className="account-form" onSubmit={submit}>
-      <label className="field">
-        <span>Current password</span>
-        <input type="password" value={current} onChange={(e) => setCurrent(e.target.value)} autoComplete="current-password" required />
-      </label>
-      <label className="field">
-        <span>New password (8+ characters)</span>
-        <input type="password" value={next} onChange={(e) => setNext(e.target.value)} autoComplete="new-password" required minLength={8} />
-      </label>
+      <PasswordField label="Current password" value={current} onChange={(e) => setCurrent(e.target.value)} autoComplete="current-password" />
+      <PasswordField label="New password (8+ characters)" value={next} onChange={(e) => setNext(e.target.value)} autoComplete="new-password" minLength={8} />
       <button type="submit" className="btn btn--outline btn--block">
         Change password
       </button>
-      {msg && (
-        <p className={msg.ok ? 'account-note' : 'account-error'} role="status">
-          {msg.text}
-        </p>
-      )}
+      {msg && <Banner kind={msg.ok ? 'ok' : 'error'}>{msg.text}</Banner>}
     </form>
   )
 }
@@ -274,11 +262,8 @@ function DeleteAccount() {
     <form className="card account-card account-card--danger" onSubmit={submit}>
       <h2>Delete account</h2>
       <p>This deletes your account, pantry and saved recipes for good, and your share links stop working.</p>
-      <label className="field">
-        <span>Type your password to confirm</span>
-        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} autoComplete="current-password" required />
-      </label>
-      {error && <p className="account-error">{error}</p>}
+      <PasswordField label="Type your password to confirm" value={password} onChange={(e) => setPassword(e.target.value)} autoComplete="current-password" />
+      <Banner kind="error">{error}</Banner>
       <div className="account-row">
         <button type="submit" className="btn btn--danger">
           Delete forever

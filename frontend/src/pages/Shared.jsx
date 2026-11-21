@@ -1,14 +1,16 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
+import Banner from '../components/Banner.jsx'
 import PageHeader from '../components/PageHeader.jsx'
 import { api } from '../api/client.js'
 import { KEYS, readJSON, writeJSON } from '../utils/storage.js'
 import '../styles/account.css'
+import '../styles/accountUi.css'
 
 // A shared recipe (owner: Jonathan): /share/<id>.
 // Anyone with the link sees the title ("Saturday Dinner"), notes, the recipe, and its grocery list,
 // and can put their name on a missing ingredient. No account or guest choice needed.
-// >>> MAIKA: skeleton only, restyle freely.
+// Layout/styling: Maika (two clear sections: Still needed and Already has, with counts).
 const REFRESH_MS = 20_000 // pick up other people's claims while the page is open
 
 export default function Shared() {
@@ -102,50 +104,60 @@ export default function Shared() {
         </section>
 
         <section className="card account-card">
-          <h2>Can you bring something?</h2>
           <label className="field">
             <span>Your name</span>
             <input ref={nameRef} value={name} onChange={(e) => saveName(e.target.value)} placeholder="e.g. Aunt Maria" maxLength={40} autoComplete="name" />
           </label>
+          <Banner kind="error">{actionError}</Banner>
+        </section>
 
+        <section className="share-section">
+          <div className="share-section__head">
+            <h2>Still needed</h2>
+            <span className="count-pill count-pill--sun">
+              {needed.length} {needed.length === 1 ? 'item' : 'items'}
+            </span>
+          </div>
           {needed.length === 0 ? (
-            <p className="account-note">{share.owner_name} already has everything. Just bring yourself!</p>
+            <p className="card account-card account-note">{share.owner_name} already has everything. Just bring yourself!</p>
           ) : (
-            <ul className="account-list claim-list">
+            <ul className="card share-rows">
               {needed.map((i) => (
                 <li key={i.id}>
                   <span>
                     <strong>{i.name}</strong> {i.measure && <span className="account-note">{i.measure}</span>}
                   </span>
                   {!i.claimed_by ? (
-                    <button type="button" className="btn btn--small btn--sun" onClick={() => act(() => api.claimItem(share.id, i.id, name))}>
+                    <button type="button" className="pill-btn" onClick={() => act(() => api.claimItem(share.id, i.id, name))}>
                       I'll get it
                     </button>
                   ) : isMe(i.claimed_by) ? (
-                    <span className="claim">
+                    <span className="pill-done">
                       ✓ You're getting it{' '}
                       <button type="button" className="link-button" onClick={() => act(() => api.unclaimItem(share.id, i.id, name))}>
                         undo
                       </button>
                     </span>
                   ) : (
-                    <span className="claim">✓ {i.claimed_by} is getting it</span>
+                    <span className="pill-done">✓ {i.claimed_by} is bringing it</span>
                   )}
                 </li>
               ))}
             </ul>
           )}
-          {actionError && (
-            <p className="account-error" role="alert">
-              {actionError}
-            </p>
-          )}
         </section>
 
         {have.length > 0 && (
-          <section className="card account-card">
-            <h2>{share.owner_name} already has</h2>
-            <p className="account-note">{have.map((i) => i.name).join(', ')}</p>
+          <section className="share-section">
+            <div className="share-section__head">
+              <h2>{share.owner_name} already has</h2>
+              <span className="count-pill count-pill--mint">
+                {have.length} {have.length === 1 ? 'item' : 'items'}
+              </span>
+            </div>
+            <div className="card account-card">
+              <p className="account-note">{have.map((i) => i.name).join(', ')}</p>
+            </div>
           </section>
         )}
       </div>

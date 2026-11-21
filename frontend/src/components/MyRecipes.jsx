@@ -4,14 +4,16 @@
 //
 // Signed in: each recipe can be shared with a title/notes and a claimable grocery list.
 // Guest: saved recipes still work (kept in this browser); sharing needs an account.
-// >>> MAIKA: skeleton only, restyle freely. The card itself is SavedRecipeCard.jsx.
+// Layout/styling: Maika (friendly empty state). The card itself is SavedRecipeCard.jsx.
 import { useCallback, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { api } from '../api/client.js'
 import { useAuth } from '../context/AuthContext.jsx'
 import { useKitchen } from '../context/KitchenContext.jsx'
+import Banner from './Banner.jsx'
 import SavedRecipeCard from './SavedRecipeCard.jsx'
 import '../styles/account.css'
+import '../styles/accountUi.css'
 
 export default function MyRecipes({ query = '' }) {
   const { user } = useAuth()
@@ -50,10 +52,16 @@ export default function MyRecipes({ query = '' }) {
 
   if (savedRecipes.length === 0 && orphans.length === 0) {
     return (
-      <p className="state-msg">
-        <strong>No saved recipes yet</strong>
-        Open any recipe and tap “☆ Save recipe” to keep it here.
-      </p>
+      <div className="empty-state card">
+        <span className="empty-state__icon" aria-hidden="true">
+          🔖
+        </span>
+        <h2>Save your first recipe</h2>
+        <p className="account-note">Tap “☆ Save recipe” on any recipe and it shows up here, ready to share.</p>
+        <Link className="btn btn--primary" to="/recipes">
+          Browse recipes
+        </Link>
+      </div>
     )
   }
 
@@ -69,7 +77,7 @@ export default function MyRecipes({ query = '' }) {
           <Link to="/signup">Create an account</Link> to share recipes with family and keep them on any device.
         </p>
       )}
-      {error && <p className="account-error">{error}</p>}
+      <Banner kind="error">{error}</Banner>
       {saved.length === 0 && shownOrphans.length === 0 ? (
         <p className="state-msg">No saved recipes match that search.</p>
       ) : (
