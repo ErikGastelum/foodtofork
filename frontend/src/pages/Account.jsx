@@ -1,53 +1,147 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import PageHeader from '../components/PageHeader.jsx'
 import { api } from '../api/client.js'
 import { useAuth } from '../context/AuthContext.jsx'
+import { useKitchen } from '../context/KitchenContext.jsx'
+import { initialsOf } from '../utils/initials.js'
 import '../styles/account.css'
+import '../styles/accountUi.css'
 
-// Account page (owner: Jonathan): name, password, sign out. Saved recipes + sharing live in Recipes → My recipes.
-// Guests see "sign up / sign in" instead.
-// >>> MAIKA: skeleton only. Each <section> is one block you can move or restyle.
+// Account page. Functionality: Jonathan. Layout/styling: Maika.
+// Profile card (initials, counts, sign out) + tiles into Recipes → My recipes + settings rows that
+// open the name / password forms. Guests see "sign up / sign in" instead.
 export default function Account() {
   const { user, isAdmin, logout } = useAuth()
+  const { inventory, savedRecipes } = useKitchen()
   const navigate = useNavigate()
+  const [shareCount, setShareCount] = useState(null) // null until the backend answers
+
+  useEffect(() => {
+    if (!user) return undefined
+    const controller = new AbortController()
+    api
+      .myShares({ signal: controller.signal })
+      .then((shares) => setShareCount(shares.length))
+      .catch(() => setShareCount(null))
+    return () => controller.abort()
+  }, [user?.id]) // eslint-disable-line react-hooks/exhaustive-deps
 
   if (!user) return <GuestAccount />
+
+  const fullName = [user.first_name, user.last_name].filter(Boolean).join(' ') || user.username
+  const lastInitial = (user.last_name || '').trim()[0]
+  const sharedAs = `${user.first_name || user.username}${lastInitial ? ` ${lastInitial.toUpperCase()}.` : ''}`
 
   return (
     <>
       <PageHeader title={`Hi, ${user.first_name || user.username}`} subtitle={isAdmin ? 'Admin account' : `Signed in as ${user.username}`} />
-      <div className="page account-page">
-        <section className="card account-card">
-          <h2>Saved &amp; shared recipes</h2>
-          <p className="account-note">Your saved recipes, and the ones you've shared with family, are under Recipes → My recipes.</p>
-          <Link className="btn btn--outline btn--block" to="/recipes?tab=mine">
-            Go to My recipes
-          </Link>
-        </section>
-        {isAdmin && (
-          <section className="card account-card">
-            <h2>Admin</h2>
-            <Link className="btn btn--outline btn--block" to="/admin">
-              Manage accounts
+      <div className="page account-page account-page--profile">
+        <aside className="card profile-card">
+          <div className="profile-card__avatar" aria-hidden="true">
+            {initialsOf(user)}
+          </div>
+          <h2 className="profile-card__name">{fullName}</h2>
+          <p className="profile-card__user">@{user.username}</p>
+          <div className="profile-card__stats">
+            <div className="stat stat--mint">
+              <strong>{inventory.length}</strong>
+              <span>Pantry items</span>
+            </div>
+            <div className="stat stat--sun">
+              <strong>{savedRecipes.length}</strong>
+              <span>Saved</span>
+            </div>
+          </div>
+          <button
+            type="button"
+            className="btn btn--outline btn--block"
+            onClick={async () => {
+              await logout()
+              navigate('/welcome')
+            }}
+          >
+            Sign out
+          </button>
+        </aside>
+
+        <div className="account-main">
+          <h2 className="account-eyebrow">Your recipes</h2>
+          <div className="tile-grid">
+            <Link className="card tile" to="/recipes?tab=mine">
+              <span className="tile__icon tile__icon--mint" aria-hidden="true">
+                🔖
+              </span>
+              <span className="tile__text">
+                <span className="tile__title">Saved recipes</span>
+                <span className="tile__meta">{savedRecipes.length} saved</span>
+              </span>
+              <span className="tile__chev" aria-hidden="true">
+                ›
+              </span>
             </Link>
-          </section>
-        )}
-        <Profile />
-        <ChangePassword />
-        <button
-          type="button"
-          className="btn btn--outline btn--block"
-          onClick={async () => {
-            await logout()
-            navigate('/welcome')
-          }}
-        >
-          Sign out
-        </button>
-        <DeleteAccount />
+            <Link className="card tile" to="/recipes?tab=mine">
+              <span className="tile__icon tile__icon--sun" aria-hidden="true">
+                🤝
+              </span>
+              <span className="tile__text">
+                <span className="tile__title">Shared with family</span>
+                <span className="tile__meta">{shareCount === null ? 'Share a saved recipe' : `${shareCount} active ${shareCount === 1 ? 'link' : 'links'}`}</span>
+              </span>
+              <span className="tile__chev" aria-hidden="true">
+                ›
+              </span>
+            </Link>
+            {isAdmin && (
+              <Link className="card tile" to="/admin">
+                <span className="tile__icon tile__icon--mint" aria-hidden="true">
+                  🛠️
+                </span>
+                <span className="tile__text">
+                  <span className="tile__title">Manage accounts</span>
+                  <span className="tile__meta">Admin only</span>
+                </span>
+                <span className="tile__chev" aria-hidden="true">
+                  ›
+                </span>
+              </Link>
+            )}
+          </div>
+
+          <h2 className="account-eyebrow">Settings</h2>
+          <div className="card settings-list">
+            <SettingsRow icon="👤" title="Your name" hint={`Family sees “${sharedAs}” on shared recipes`} action="Edit">
+              <Profile />
+            </SettingsRow>
+            <SettingsRow icon="🔒" title="Password" hint="Change your sign-in password" action="Change">
+              <ChangePassword />
+            </SettingsRow>
+          </div>
+
+          <DeleteAccount />
+        </div>
       </div>
     </>
+  )
+}
+
+// One tappable settings line that opens its form underneath.
+function SettingsRow({ icon, title, hint, action, children }) {
+  const [open, setOpen] = useState(false)
+  return (
+    <div className="settings-row">
+      <button type="button" className="settings-row__head" aria-expanded={open} onClick={() => setOpen((o) => !o)}>
+        <span className="settings-row__icon" aria-hidden="true">
+          {icon}
+        </span>
+        <span className="settings-row__text">
+          <span className="settings-row__title">{title}</span>
+          <span className="settings-row__hint">{hint}</span>
+        </span>
+        <span className="settings-row__action">{open ? 'Close' : action}</span>
+      </button>
+      {open && <div className="settings-row__body">{children}</div>}
+    </div>
   )
 }
 
@@ -87,8 +181,7 @@ function Profile() {
   }
 
   return (
-    <form className="card account-card" onSubmit={submit}>
-      <h2>Your name</h2>
+    <form className="account-form" onSubmit={submit}>
       <div className="account-row account-row--fields">
         <label className="field">
           <span>First name</span>
@@ -130,8 +223,7 @@ function ChangePassword() {
   }
 
   return (
-    <form className="card account-card" onSubmit={submit}>
-      <h2>Change password</h2>
+    <form className="account-form" onSubmit={submit}>
       <label className="field">
         <span>Current password</span>
         <input type="password" value={current} onChange={(e) => setCurrent(e.target.value)} autoComplete="current-password" required />

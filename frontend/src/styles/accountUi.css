@@ -1,0 +1,285 @@
+/* Account UI polish (Maika): top-bar account button, Welcome screen, Account page.
+   Loaded after account.css so these rules win. Uses the theme tokens from theme.css. */
+
+/* ---------- Top bar: Sign in pill / signed-in chip (desktop only) ---------- */
+@media (min-width: 768px) {
+  .top-nav__signin,
+  .top-nav__me {
+    margin-left: auto;
+  }
+  .top-nav__signin {
+    padding: 8px 20px;
+    border-radius: 999px;
+    background: var(--sunshine);
+    color: var(--sun-ink);
+    font-size: 0.9rem;
+    font-weight: 800;
+  }
+  .top-nav__signin:hover {
+    background: #ffc94d;
+  }
+  .top-nav__me {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 14px 4px 4px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.16);
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+  .top-nav__me:hover,
+  .top-nav__me.is-active {
+    background: rgba(255, 255, 255, 0.28);
+  }
+  .top-nav__avatar {
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: var(--sunshine);
+    color: var(--sun-ink);
+    font-size: 0.75rem;
+    font-weight: 800;
+  }
+}
+
+/* ---------- Welcome ---------- */
+.welcome__card h2 {
+  font-size: 1.1rem;
+  color: var(--ink);
+}
+.welcome__or {
+  text-align: center;
+  color: var(--ink-soft);
+  font-size: 0.92rem;
+}
+.welcome__guest {
+  border: 0;
+  background: none;
+  padding: 4px;
+  color: var(--forest);
+  font: inherit;
+  font-weight: 700;
+  text-decoration: underline;
+}
+.welcome__note {
+  text-align: center;
+  font-size: 0.8rem;
+}
+
+@media (min-width: 768px) {
+  .account-page.welcome {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: center;
+    gap: 48px;
+    max-width: 920px;
+    padding-top: 40px;
+  }
+  .welcome__pill {
+    display: inline-block;
+    margin-bottom: 12px;
+    padding: 4px 12px;
+    border-radius: 999px;
+    background: var(--mint);
+    color: var(--forest);
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+  .welcome__intro h1 {
+    margin-bottom: 18px;
+    color: var(--forest);
+    font-size: 2.1rem;
+    line-height: 1.15;
+  }
+  .welcome__list {
+    display: grid;
+    gap: 12px;
+    padding: 0;
+    list-style: none;
+  }
+  .welcome__list li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 1rem;
+  }
+  .welcome__list li span {
+    font-size: 1.4rem;
+  }
+}
+
+/* ---------- Account page ---------- */
+.profile-card {
+  justify-items: center;
+  gap: 6px;
+  padding: 22px 18px;
+  text-align: center;
+}
+.profile-card__avatar {
+  display: grid;
+  place-items: center;
+  width: 68px;
+  height: 68px;
+  margin-bottom: 4px;
+  border-radius: 50%;
+  background: var(--emerald);
+  color: #fff;
+  font-size: 1.4rem;
+  font-weight: 800;
+}
+.profile-card__name {
+  font-size: 1.1rem;
+  color: var(--forest);
+}
+.profile-card__user {
+  color: var(--ink-soft);
+  font-size: 0.88rem;
+}
+.profile-card__stats {
+  display: flex;
+  gap: 10px;
+  margin: 10px 0 8px;
+}
+.stat {
+  display: grid;
+  min-width: 88px;
+  padding: 8px 14px;
+  border-radius: var(--radius-sm);
+}
+.stat strong {
+  font-size: 1.25rem;
+}
+.stat span {
+  font-size: 0.75rem;
+}
+.stat--mint {
+  background: var(--mint);
+  color: var(--forest);
+}
+.stat--sun {
+  background: var(--sun-soft);
+  color: var(--sun-ink);
+}
+
+.account-main {
+  display: grid;
+  gap: 14px;
+  min-width: 0;
+}
+.account-eyebrow {
+  color: var(--ink-soft);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.tile-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 12px;
+}
+.tile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+}
+.tile:hover {
+  border-color: var(--emerald);
+}
+.tile__icon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  font-size: 1.3rem;
+}
+.tile__icon--mint {
+  background: var(--mint);
+}
+.tile__icon--sun {
+  background: var(--sun-soft);
+}
+.tile__text {
+  display: grid;
+  min-width: 0;
+}
+.tile__title {
+  font-weight: 700;
+}
+.tile__meta {
+  color: var(--ink-soft);
+  font-size: 0.85rem;
+}
+.tile__chev {
+  margin-left: auto;
+  color: var(--ink-soft);
+  font-size: 1.5rem;
+}
+
+.settings-list {
+  padding: 0;
+  overflow: hidden;
+}
+.settings-row + .settings-row {
+  border-top: 1px solid var(--line);
+}
+.settings-row__head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 14px 16px;
+  border: 0;
+  background: none;
+  color: var(--ink);
+  font: inherit;
+  text-align: left;
+}
+.settings-row__head:hover {
+  background: var(--cream);
+}
+.settings-row__icon {
+  font-size: 1.3rem;
+}
+.settings-row__text {
+  display: grid;
+  flex: 1;
+  min-width: 0;
+}
+.settings-row__title {
+  font-weight: 700;
+}
+.settings-row__hint {
+  color: var(--ink-soft);
+  font-size: 0.85rem;
+}
+.settings-row__action {
+  color: var(--emerald);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+.settings-row__body {
+  padding: 4px 16px 16px;
+}
+.account-form {
+  display: grid;
+  gap: 12px;
+}
+
+@media (min-width: 768px) {
+  .account-page.account-page--profile {
+    grid-template-columns: 280px minmax(0, 720px);
+    align-items: start;
+    gap: 24px;
+    max-width: none;
+    margin: 0;
+    padding-bottom: 24px;
+  }
+}
