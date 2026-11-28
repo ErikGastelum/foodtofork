@@ -15,7 +15,7 @@ FoodToFork is a responsive, mobile-friendly web app where a user builds a live i
 | Decision | Choice |
 |---|---|
 | Platform | Single responsive web app (native wrapper is a stretch goal) |
-| Accounts | Guest-only for v1; inventory stored in browser local storage |
+| Accounts | Guest (browser local storage) **or** an account (backend database, SQLite locally / Postgres when deployed). See [docs/ACCOUNTS.md](docs/ACCOUNTS.md) |
 | Backend | Python + FastAPI |
 | Frontend | React + Vite *(to confirm)* |
 | Recipe data | TheMealDB, cached locally by the backend |
@@ -49,6 +49,7 @@ foodtofork/
 │   └── scripts/         # one-off scripts, e.g. fetch_recipes.py
 ├── docs/
 │   ├── API_CONTRACT.md  # endpoint agreement between frontend and backend
+│   ├── ACCOUNTS.md      # accounts: guest / sign up / admin / recipe sharing
 │   └── DEPLOY.md        # how to deploy the backend to Render
 └── README.md
 ```
@@ -94,6 +95,7 @@ Full details, including request and response examples, are in [docs/API_CONTRACT
 | `GET` | `/products/search?q=oat` | Autocomplete suggestions for manual add |
 | `POST` | `/match` | Body: `{"inventory": ["eggs", "tomatoes"]}`; returns recipes ranked by match % with missing ingredients |
 | `GET` | `/recipes/{id}` | Full recipe: ingredients, instructions, image |
+| | `/auth/*`, `/me/*`, `/share/*`, `/admin/*` | Accounts, per-account kitchen, shared recipes with claimable grocery lists, admin. See [docs/ACCOUNTS.md](docs/ACCOUNTS.md) |
 
 Example `/match` response:
 

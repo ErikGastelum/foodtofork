@@ -1,6 +1,12 @@
 import { NavLink } from 'react-router-dom'
+import { useAuth } from '../context/AuthContext.jsx'
+import { initialsOf } from '../utils/initials.js'
+import '../styles/account.css'
+import '../styles/accountUi.css'
 
-// Desktop navigation. No Community or Sign in: accounts are a stretch goal.
+// Desktop navigation. Account lives at the top right (like the mockup):
+//   signed out / guest -> yellow "Sign in" pill
+//   signed in          -> avatar + first name, links to /account
 // >>> To add a page later, add one entry here (and one in BottomNav if it belongs on mobile).
 const LINKS = [
   { to: '/', label: 'My Kitchen', end: true },
@@ -9,6 +15,8 @@ const LINKS = [
 ]
 
 export default function TopNav() {
+  const { user } = useAuth()
+
   return (
     <header className="top-nav">
       <NavLink to="/" className="top-nav__brand" aria-label="FoodToFork home">
@@ -21,6 +29,18 @@ export default function TopNav() {
           </NavLink>
         ))}
       </nav>
+      {user ? (
+        <NavLink to="/account" className={({ isActive }) => 'top-nav__me' + (isActive ? ' is-active' : '')} aria-label="Your account">
+          <span className="top-nav__avatar" aria-hidden="true">
+            {initialsOf(user)}
+          </span>
+          <span>{user.first_name || user.username}</span>
+        </NavLink>
+      ) : (
+        <NavLink to="/login" className="top-nav__signin">
+          Sign in
+        </NavLink>
+      )}
     </header>
   )
 }

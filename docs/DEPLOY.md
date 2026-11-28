@@ -29,6 +29,8 @@ push to `main` redeploys automatically.
    |---|---|
    | `PYTHON_VERSION` | `3.12.7` |
    | `FRONTEND_URL` | the deployed frontend URL, once Maika's app is live (e.g. `https://foodtofork.vercel.app`) |
+   | `DATABASE_URL` | Postgres connection string for accounts (e.g. Neon). Without it, accounts vanish on every deploy. See `docs/ACCOUNTS.md` |
+   | `ADMIN_USERNAME` / `ADMIN_PASSWORD` | the admin account, created on first start |
 
 6. Click **Create Web Service** and wait for the build log to say it's live
    (a few minutes the first time).
